@@ -1,6 +1,6 @@
 
 {
-  "name": "react-hooks-template",
+  "name": "nuggle",
   "reason": {
     "react-jsx": 3
   },
@@ -9,7 +9,7 @@
     "subdirs" : true
   },
   "package-specs": [{
-    "module": "commonjs",
+    "module": "es6",
     "in-source": true
   }],
   "suffix": ".bs.js",
