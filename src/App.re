@@ -36,8 +36,8 @@ module Styles = {
     style([
       backgroundColor(hex("eee")),
       display(flexBox),
-      alignItems(center),
-      justifyContent(center),
+      alignItems(stretch),
+      justifyContent(stretch),
       flex(1),
     ]);
 };
@@ -48,8 +48,6 @@ let make = () => {
     <header className=Styles.header>
       <h1 className=Styles.appTitle> {React.string("Nuggle")} </h1>
     </header>
-    <main className=Styles.main>
-      {React.string("Content will go here")}
-    </main>
+    <main className=Styles.main> <Deck /> </main>
   </>;
 };
