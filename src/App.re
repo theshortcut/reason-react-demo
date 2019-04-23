@@ -3,7 +3,7 @@ module Styles = {
 
   global("*", [boxSizing(borderBox), margin(px(0)), padding(px(0))]);
 
-  global("html,body", [height(pct(100.))]);
+  global("html,body", [height(pct(100.)), overflowX(hidden)]);
 
   global(
     "body",
@@ -44,10 +44,25 @@ module Styles = {
 
 [@react.component]
 let make = () => {
+  let (menuItems, setMenuItems) = React.useState(() => None);
+
+  React.useEffect0(() => {
+    MenuItemData.fetchMenuItems()
+    |> Js.Promise.then_(menuItems => {
+         setMenuItems(_prev => Some(menuItems));
+         Js.Promise.resolve();
+       })
+    |> Js.Promise.catch(err => {
+         Js.log("An error occurred: " ++ Js.String.make(err));
+         Js.Promise.resolve();
+       })
+    |> ignore;
+    None;
+  });
   <>
     <header className=Styles.header>
       <h1 className=Styles.appTitle> {React.string("Nuggle")} </h1>
     </header>
-    <main className=Styles.main> <Deck /> </main>
+    <main className=Styles.main> <Deck menuItems /> </main>
   </>;
 };

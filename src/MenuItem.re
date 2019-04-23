@@ -7,16 +7,27 @@ module Styles = {
       flexDirection(column),
       backgroundColor(white),
       borderRadius(rem(0.25)),
-      boxShadow(~y=rem(0.125), ~blur=rem(0.75), rgba(0, 0, 0, 0.5)),
       userSelect(none),
       position(absolute),
+      width(rem(18.75)),
+      overflow(hidden),
     ]);
 
   let image = style([pointerEvents(none)]);
+
+  let details = style([padding(rem(1.))]);
+
+  let name =
+    style([
+      fontSize(rem(1.)),
+      overflow(hidden),
+      textOverflow(ellipsis),
+      whiteSpace(nowrap),
+    ]);
 };
 
 [@react.component]
-let make = (~imageUrl: string, ~name: string, ~onSelectChange) => {
+let make = (~menuItem: MenuItemData.menuItem, ~onSelectChange) => {
   let cardRef = React.useRef(Js.Nullable.null);
 
   let onMouseDown = _ =>
@@ -27,10 +38,15 @@ let make = (~imageUrl: string, ~name: string, ~onSelectChange) => {
 
   <div ref={cardRef->ReactDOMRe.Ref.domRef} className=Styles.card onMouseDown>
     <img
-      src={j|$imageUrl?auto=format&w=300&h=300&trim=auto&fit=crop&crop=entropy|j}
+      src={
+        menuItem.imageUrl
+        ++ "?auto=format&w=300&h=300&trim=auto&fit=crop&crop=entropy"
+      }
       className=Styles.image
-      alt=name
+      alt={menuItem.name}
     />
-    <h3> {React.string(name)} </h3>
+    <div className=Styles.details>
+      <h3 className=Styles.name> {React.string(menuItem.name)} </h3>
+    </div>
   </div>;
 };

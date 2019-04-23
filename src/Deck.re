@@ -8,10 +8,17 @@ module Styles = {
       alignItems(center),
       justifyContent(center),
     ]);
+
+  let menuItems =
+    style([
+      boxShadow(~blur=px(3), rgba(0, 0, 0, 0.2)),
+      width(rem(18.75)),
+      height(rem(21.9375)),
+    ]);
 };
 
 [@react.component]
-let make = () => {
+let make = (~menuItems) => {
   let selectedRef = React.useRef(None);
   let onSelectChange = React.Ref.setCurrent(selectedRef);
   let onMouseUp = event => {
@@ -66,22 +73,26 @@ let make = () => {
       let rotation = 20. *. percentage;
       cardNodeObj##setAttribute(
         "style",
-        {j|transform: translateX($(translateX)px) rotate($(rotation)deg);|j},
+        {j|transform: translateX($(translateX)px) rotate($(rotation)deg); box-shadow: 0 3px 6px rgba(0,0,0,0.4);|j},
       );
     | _ => ()
     };
   };
 
+  let menuItemElements =
+    switch (menuItems) {
+    | Some(menuItems) =>
+      ReasonReact.array(
+        Array.map(
+          (menuItem: MenuItemData.menuItem) =>
+            <MenuItem key={menuItem.name} menuItem onSelectChange />,
+          menuItems,
+        ),
+      )
+    | None => React.string("Loading...")
+    };
+
   <div className=Styles.wrapper onMouseMove onMouseUp>
-    <MenuItem
-      imageUrl="https://images.weedmaps.com/original/image_missing.jpg"
-      name="Menu Item"
-      onSelectChange
-    />
-    <MenuItem
-      imageUrl="https://images.weedmaps.com/original/image_missing.jpg"
-      name="Another One"
-      onSelectChange
-    />
+    <div className=Styles.menuItems> menuItemElements </div>
   </div>;
 };
