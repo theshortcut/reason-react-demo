@@ -9,7 +9,7 @@ module Styles = {
       borderRadius(rem(0.25)),
       boxShadow(~y=rem(0.125), ~blur=rem(0.75), rgba(0, 0, 0, 0.5)),
       userSelect(none),
-      // transition(~duration=300, ~timingFunction=easeInOut, "transform"),
+      position(absolute),
     ]);
 
   let image = style([pointerEvents(none)]);
